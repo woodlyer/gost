@@ -3,15 +3,20 @@ module github.com/go-gost/gost
 go 1.20
 
 replace github.com/templexxx/cpu v0.0.7 => github.com/templexxx/cpu v0.0.10-0.20211111114238-98168dcec14a
+replace github.com/go-gost/x => ./go-gost/x
 
 require (
 	github.com/go-gost/core v0.0.0-20230418124644-a2115a3d3876
 	github.com/go-gost/x v0.0.0-20230521074751-46db8480faa9
 	github.com/judwhite/go-svc v1.2.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
+
 )
 
+require github.com/libp2p/go-reuseport v0.3.0 // indirect
+
 require (
+	//github.com/libp2p/go-reuseport v0.3.0  // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
 	github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
