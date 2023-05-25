@@ -4,6 +4,7 @@ go 1.20
 
 replace github.com/templexxx/cpu v0.0.7 => github.com/templexxx/cpu v0.0.10-0.20211111114238-98168dcec14a
 replace github.com/go-gost/x => ./go-gost/x
+replace github.com/go-gost/core => ./go-gost/core
 
 require (
 	github.com/go-gost/core v0.0.0-20230418124644-a2115a3d3876

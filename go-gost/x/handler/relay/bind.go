@@ -16,6 +16,9 @@ import (
 	metrics "github.com/go-gost/x/metrics/wrapper"
 	xservice "github.com/go-gost/x/service"
 	"github.com/google/uuid"
+
+	//wood
+	reusenet "github.com/libp2p/go-reuseport"
 )
 
 func (h *relayHandler) handleBind(ctx context.Context, conn net.Conn, network, address string, log logger.Logger) error {
@@ -51,7 +54,9 @@ func (h *relayHandler) bindTCP(ctx context.Context, conn net.Conn, network, addr
 		Status:  relay.StatusOK,
 	}
 
-	ln, err := net.Listen(network, address) // strict mode: if the port already in use, it will return error
+	//wood
+	ln, err := reusenet.Listen(network, address)
+	//ln, err := net.Listen(network, address) // strict mode: if the port already in use, it will return error
 	if err != nil {
 		log.Error(err)
 		resp.Status = relay.StatusServiceUnavailable
