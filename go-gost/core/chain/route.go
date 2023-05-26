@@ -10,9 +10,7 @@ import (
 	"github.com/go-gost/core/common/net/dialer"
 	"github.com/go-gost/core/common/net/udp"
 	"github.com/go-gost/core/logger"
-
 	//wood
-	reusenet "github.com/libp2p/go-reuseport"
 )
 
 var (
@@ -62,10 +60,9 @@ func (*route) Bind(ctx context.Context, network, address string, opts ...BindOpt
 		if err != nil {
 			return nil, err
 		}
-		_ = addr
-		//wood
-		return reusenet.Listen(network, address)
-		//return net.ListenTCP(network, addr)
+		//_ = addr
+		//return reusenet.Listen(network, address)
+		return net.ListenTCP(network, addr)
 	case "udp", "udp4", "udp6":
 		addr, err := net.ResolveUDPAddr(network, address)
 		if err != nil {
