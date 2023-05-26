@@ -33,6 +33,7 @@ _testmain.go
 
 cmd/gost/gost
 snap
+gost
 
 *.pem
 *.yaml

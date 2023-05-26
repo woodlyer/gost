@@ -5,7 +5,6 @@ import (
 	"time"
 
 	//wood
-	reusenet "github.com/libp2p/go-reuseport"
 
 	"github.com/go-gost/core/listener"
 	"github.com/go-gost/core/logger"
@@ -51,10 +50,10 @@ func (l *tcpListener) Init(md md.Metadata) (err error) {
 		network = "tcp4"
 	}
 
-	//ln, err := net.Listen(network, l.options.Addr)
+	ln, err := net.Listen(network, l.options.Addr)
 
 	//wood
-	ln, err := reusenet.Listen(network, l.options.Addr)
+	//ln, err := reusenet.Listen(network, l.options.Addr)
 	if err != nil {
 		return
 	}
