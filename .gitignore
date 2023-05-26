@@ -9,7 +9,7 @@ _test
 release
 debian
 bin
-.vscode
+#.vscode
 
 # Architecture specific extensions/prefixes
 *.[568vq]
