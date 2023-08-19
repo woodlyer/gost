@@ -55,6 +55,10 @@ func (c *relayConnector) Connect(ctx context.Context, conn net.Conn, network, ad
 		Version: relay.Version1,
 		Cmd:     relay.CmdConnect,
 	}
+
+	// wood
+	req.Features = append(req.Features, &relay.RandomFeature{})
+
 	if network == "udp" || network == "udp4" || network == "udp6" {
 		req.Cmd |= relay.FUDP
 

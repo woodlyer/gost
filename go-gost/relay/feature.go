@@ -20,6 +20,7 @@ const (
 	FeatureUserAuth FeatureType = 0x01
 	FeatureAddr     FeatureType = 0x02
 	FeatureTunnel   FeatureType = 0x03
+	FeatureRandom   FeatureType = 0xf0 //wood
 )
 
 var (
@@ -54,6 +55,8 @@ func NewFeature(t FeatureType, data []byte) (f Feature, err error) {
 		f = new(AddrFeature)
 	case FeatureTunnel:
 		f = new(TunnelFeature)
+	case FeatureRandom:
+		f = new(RandomFeature) //wood
 	default:
 		return nil, errors.New("unknown feature")
 	}
@@ -426,5 +429,61 @@ func (f *TunnelFeature) Decode(b []byte) error {
 		return ErrShortBuffer
 	}
 	copy(f.ID[:], b)
+	return nil
+}
+
+// wood
+// RandomFeature is a relay feature,
+// it is used to random the length of packet.
+//
+// Protocol spec:
+//
+//	+------+----------+
+//	| ULEN |  RANDOM  |
+//	+------+----------+
+//	|  1   | 0 to 255 |
+//	+------+----------+
+//
+//	ULEN - length of RANDOM field, 1 byte.
+//	RANDOM - random, variable length, 0 to 255 bytes.
+
+// random string to change the packet length.
+type RandomFeature struct {
+	RandomStr string
+}
+
+func (f *RandomFeature) Type() FeatureType {
+	return FeatureRandom
+}
+
+func (f *RandomFeature) Encode() ([]byte, error) {
+	var buf bytes.Buffer
+	f.RandomStr = RandString() // random string have 0-32 string length
+	f.RandomStr = "RAND" + f.RandomStr
+	ulen := len(f.RandomStr)
+	if ulen > 0xFF {
+		return nil, errors.New("random maximum length exceeded")
+	}
+	buf.WriteByte(uint8(ulen))
+	buf.WriteString(f.RandomStr)
+
+	return buf.Bytes(), nil
+}
+
+func (f *RandomFeature) Decode(b []byte) error {
+	//return nil
+
+	if len(b) < 1 {
+		return ErrShortBuffer
+	}
+
+	pos := 0
+	ulen := int(b[pos])
+
+	pos++
+	if len(b) < pos+ulen {
+		return ErrShortBuffer
+	}
+	f.RandomStr = string(b[pos : pos+ulen])
 	return nil
 }
