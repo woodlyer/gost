@@ -8,6 +8,10 @@ release(){
   go build -ldflags "-s -w"  ./cmd/gost
 }
 
+arm64(){
+  GOARCH=arm64 GOOS=linux go build -o gost.arm64  -ldflags "-s -w"  ./cmd/gost 
+}
+
 
 win()
 { 
